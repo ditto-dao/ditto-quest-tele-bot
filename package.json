@@ -8,7 +8,8 @@
     "dev": "NODE_ENV=development dotenv -e .env ts-node ./index.ts",
     "start": "NODE_ENV=prod dotenv -e .env ts-node ./index.ts",
     "build": "tsc && ts-node src/utils/copy-assets.ts",
-    "pm2": "tsc && ts-node src/utils/copy-assets.ts && pm2 start pm2.config.json"
+    "pm2": "tsc && ts-node src/utils/copy-assets.ts && pm2 start pm2.config.json",
+    "pm2-dev": "tsc && ts-node src/utils/copy-assets.ts && pm2 start pm2.config.dev.json"
   },
   "devDependencies": {
     "ts-node": "^10.9.2"

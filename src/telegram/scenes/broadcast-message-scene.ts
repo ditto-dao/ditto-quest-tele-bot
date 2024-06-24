@@ -5,7 +5,6 @@ import { replyWithError } from "../../utils/tele-bot-utils";
 import { ClickGameBotContext } from "../bot/click-game-tele-bot";
 import { getAllUserIdsFromRedis } from "../../redis/users";
 
-
 const broadcastMessageScene = new Scenes.BaseScene<ClickGameBotContext>(BROADCAST_MESSAGE_SCENE);
 
 broadcastMessageScene.enter(async (ctx) => {
@@ -19,12 +18,23 @@ broadcastMessageScene.enter(async (ctx) => {
 
 broadcastMessageScene.on('message', async (ctx) => {
     try {
-        if (!('message' in ctx && ctx.message && 'text' in ctx.message)) {
+        if (!('message' in ctx && ctx.message)) {
             throw new Error('No message field in context');
         }
+
         const userIds = await getAllUserIdsFromRedis();
-        await broadCastMessage(ctx, userIds, ctx.message.text);
-        replyWithError(ctx, 'Message successfully broadcasted.');
+
+        if ('text' in ctx.message) {
+            await broadCastMessage(ctx, userIds, ctx.message.text);
+            replyWithError(ctx, 'Message successfully broadcasted.');
+        } else if ('photo' in ctx.message && ctx.message.photo.length > 0) {
+            const message = ctx.message.caption || "";
+            const fileId = ctx.message.photo[ctx.message.photo.length - 1].file_id;
+            await broadCastMessage(ctx, userIds, message, fileId);
+            replyWithError(ctx, 'Message successfully broadcasted.');
+        } else {
+            throw new Error('Unsupported broadcast message. Send text only OR single image AND caption');
+        }
     } catch (err) {
         logger.error(`Error broadcasting message in Broadcast Message Scene: ${err}`);
         replyWithError(ctx, 'An error occurred. Please try again later.');
@@ -32,7 +42,6 @@ broadcastMessageScene.on('message', async (ctx) => {
         ctx.scene.leave();
     }
 });
-
 
 broadcastMessageScene.command('exit', async (ctx) => {
     try {
@@ -61,10 +70,14 @@ broadcastMessageScene.command('back', async (ctx) => {
     }
 });
 
-async function broadCastMessage(ctx: ClickGameBotContext, users: string[], message: string) {
+async function broadCastMessage(ctx: ClickGameBotContext, users: string[], message: string, photo?: string) {
     for (const userId of users) {
         try {
-            await ctx.telegram.sendMessage(userId, message);
+            if (photo) {
+                await ctx.telegram.sendPhoto(userId, photo, { caption: message });
+            } else {
+                await ctx.telegram.sendMessage(userId, message);
+            }
             logger.info(`Message broadcasted to user ${userId}`);
         } catch (err) {
             logger.error(`Error sending message to user ${userId}: ${err}`);

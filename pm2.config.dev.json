@@ -1,0 +1,18 @@
+{
+    "apps": [
+        {
+            "name": "Click Game Telegram Bot [DEV]",
+            "script": "dist/index.js",
+            "interpreter": "/home/ubuntu/.nvm/versions/node/v18.20.3/bin/node",
+            "node_args": "-r dotenv/config",
+            "autorestart": true,
+            "env": {
+                "NODE_ENV": "dev",
+                "LOG_LEVEL": "info"
+            },
+            "error_file": "./logs/dev/pm2_error.log",
+            "out_file": "./logs/dev/pm2_out.log",
+            "merge_logs": true
+        }
+    ]
+}
