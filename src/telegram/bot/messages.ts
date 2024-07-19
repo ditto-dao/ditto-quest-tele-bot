@@ -17,6 +17,6 @@ Ditto can be whatever. You can be ANYTHING! 🚀✨
 📅 Date: 23 July 2024 
 ⏰ Time: 4:00AM UTC
 
-💰 We’re giving away 1000 USDT worth of airdrops per week for a total of 4000 USDT over the course of our launch event!
+💰 We’re giving away 1000 USDT of airdrops per week for a total of 4000 USDT over the course of our launch event!
     `;
 }
