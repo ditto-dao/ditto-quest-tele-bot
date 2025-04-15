@@ -6,17 +6,12 @@ export function getStartMessageHTML(ctx: Context) {
     return `
 <b>Hi @${username || 'there'}!</b> 👋
 
-Simply tap the ➕ and ➖ buttons to contribute to the global number. 
+Welcome to the Ditto Arcade's debut Accumulation Game!
 
-Try our <b>Guess</b> and <b>Leverage</b> modes to earn more $DITTO.
+Tap the ➕ and ➖ buttons and complete combos to influence the global counter. 
 
-Ditto can be whatever. You can be ANYTHING! 🚀✨
+Try our <b>Guess</b> and <b>Leverage</b> modes to stack more $DITTO.
 
-<i>🎉 Ditto Launch Event 🎉</i> 
-
-📅 Date: 23 July 2024 
-⏰ Time: 4:00AM UTC
-
-💰 We’re giving away 1000 USDT of airdrops per week for a total of 4000 USDT over the course of our launch event!
+<i>Ditto can be whatever. You can be ANYTHING! 🚀✨</i>
     `;
 }

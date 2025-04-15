@@ -6,7 +6,7 @@ import { isAdmin, replyWithError } from "../../utils/tele-bot-utils";
 import { BROADCAST_MESSAGE_SCENE } from "../scenes/scenes";
 import { getStartMessageHTML } from "./messages";
 import { join } from "path";
-import { TMA_LINK } from "../../utils/config";
+import { DITTO_QUEST_LINK, TMA_LINK } from "../../utils/config";
 
 interface ClickGameBotSession extends SceneSession {
     processingCallback?: boolean;
@@ -17,14 +17,13 @@ export interface ClickGameBotContext extends Scenes.SceneContext {
 }
 
 export const inlineKeyboardDefault = [
-    [Markup.button.webApp('Play 🎮', TMA_LINK)],
+    [Markup.button.webApp('Guess and Leverage Game 🎮', TMA_LINK)],
+    [Markup.button.webApp('Ditto Quest Idle RPG 👾', DITTO_QUEST_LINK)],
     [
         Markup.button.url('X 🌐', 'https://x.com/dittocoin'),
         Markup.button.url('Community 👥', 'https://t.me/teamditto')
     ],
-    [Markup.button.url('How to Play 📖', 'https://team-ditto.notion.site/How-to-play-8b333d0cf2c14ff6975681fa731b539b')],
-    [Markup.button.url('About DITTO 📘', 'https://team-ditto.notion.site/ABOUT-DITTO-2fb550fd465b4cc08a95d359b7d5809c')],
-    [Markup.button.url('Launch Event Details 🚀', 'https://team-ditto.notion.site/DITTO-LAUNCH-EVENT-f38cd9341b8e449e9fd5cbb785139be1')]
+    [Markup.button.url('Whitepaper 📖', 'https://team-ditto.notion.site/ABOUT-DITTO-2fb550fd465b4cc08a95d359b7d5809c')],
 ]
 
 export type ButtonCallback = {
