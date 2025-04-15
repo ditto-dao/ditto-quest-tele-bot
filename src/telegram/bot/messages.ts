@@ -6,12 +6,13 @@ export function getStartMessageHTML(ctx: Context) {
     return `
 <b>Hi @${username || 'there'}!</b> 👋
 
-Welcome to the Ditto Arcade's debut Accumulation Game!
+Welcome to <b>Ditto Arcade</b> — your gateway to two ways to earn $DITTO!
 
-Tap the ➕ and ➖ buttons and complete combos to influence the global counter.  
-Try our <b>Guess</b> and <b>Leverage</b> modes to stack more $DITTO.
+🎮 <b>Guess and Leverage Game</b>  
+Tap ➕ and ➖ to complete combos and push the global counter.  
+Try <b>Guess</b> & <b>Leverage</b> modes to multiply your $DITTO.
 
-🚨 <b>NEW:</b> We've just launched the <b>Ditto Quest Idle RPG</b> beta!  
+🧪 <b>Ditto Quest Idle RPG (Beta)</b>  
 Battle monsters, craft gear, and breed your slime in this idle RPG adventure 👾⚔️
 
 <i>Ditto can be whatever. You can be ANYTHING! 🚀✨</i>
