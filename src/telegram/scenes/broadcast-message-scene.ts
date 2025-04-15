@@ -71,18 +71,26 @@ broadcastMessageScene.command('back', async (ctx) => {
 });
 
 async function broadCastMessage(ctx: ClickGameBotContext, users: string[], message: string, photo?: string) {
-    for (const userId of users) {
-        try {
-            if (photo) {
-                await ctx.telegram.sendPhoto(userId, photo, { caption: message });
-            } else {
-                await ctx.telegram.sendMessage(userId, message);
+    try {
+        const promises = users.map(async (userId) => {
+            try {
+                if (photo) {
+                    await ctx.telegram.sendPhoto(userId, photo, { caption: message });
+                } else {
+                    await ctx.telegram.sendMessage(userId, message);
+                }
+                logger.info(`Message broadcasted to user ${userId}`);
+            } catch (err) {
+                logger.error(`Error sending message to user ${userId}: ${err}`);
             }
-            logger.info(`Message broadcasted to user ${userId}`);
-        } catch (err) {
-            logger.error(`Error sending message to user ${userId}: ${err}`);
-        }
+        });
+
+        // Wait for all messages to be sent in parallel
+        await Promise.all(promises);
+    } catch (err) {
+        logger.error(`Error in broadcasting messages: ${err}`);
     }
 }
+
 
 export default broadcastMessageScene;
