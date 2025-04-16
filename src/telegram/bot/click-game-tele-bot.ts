@@ -23,7 +23,7 @@ export const inlineKeyboardDefault = [
         Markup.button.url('X 🌐', 'https://x.com/dittocoin'),
         Markup.button.url('Community 👥', 'https://t.me/teamditto')
     ],
-    [Markup.button.url('Whitepaper 📖', 'https://team-ditto.notion.site/ABOUT-DITTO-2fb550fd465b4cc08a95d359b7d5809c')],
+    [Markup.button.url('Whitepaper 📖', 'https://team-ditto.notion.site/Ditto-Labs-Blueprint-1d759184254f80b5903ec03400fb8c56')],
 ]
 
 export type ButtonCallback = {
