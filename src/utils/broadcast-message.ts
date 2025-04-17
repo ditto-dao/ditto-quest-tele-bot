@@ -11,8 +11,8 @@ const inlineKeyboard = Markup.inlineKeyboard([
 ]);
 
 async function broadcast() {
-    // const userIds = await getAllUserIdsFromRedis();
-    const userIds = ["138050881", "34860195", "6712681725"];
+    const userIds = await getAllUserIdsFromRedis();
+    //const userIds = ["138050881", "34860195", "6712681725"];
     const imagePath = join(__dirname, "../assets/dq-promo-banner-crop.png"); // Update path as needed
     const caption = `
 <b>🚨 DITTO QUEST BETA IS LIVE 🚨</b>  
@@ -40,22 +40,28 @@ Report bugs, win rewards, and help shape the Dittoverse.
 
     console.log(`Attempting to broadcast to ${userIds.length} users.`);
 
-    const sendTasks = userIds.map((userId) =>
-        bot.telegram
-            .sendPhoto(userId, { source: imagePath }, {
-                caption,
-                parse_mode: "HTML",
-                reply_markup: inlineKeyboard.reply_markup,
-            })
-            .then(() => {
-                console.log(`Broadcast sent to ${userId}`);
-            })
-            .catch((err) => {
-                console.error(`Failed to send to ${userId}: ${err}`);
-            })
-    );
+    const BATCH_SIZE = 20;
 
-    await Promise.allSettled(sendTasks);
+    for (let i = 0; i < userIds.length; i += BATCH_SIZE) {
+        const batch = userIds.slice(i, i + BATCH_SIZE);
+
+        const sendTasks = batch.map((userId) =>
+            bot.telegram
+                .sendPhoto(userId, { source: imagePath }, {
+                    caption,
+                    parse_mode: "HTML",
+                    reply_markup: inlineKeyboard.reply_markup,
+                })
+                .then(() => {
+                    console.log(`Broadcast sent to ${userId}`);
+                })
+                .catch((err) => {
+                    console.error(`Failed to send to ${userId}: ${err}`);
+                })
+        );
+
+        await Promise.allSettled(sendTasks);
+    }
 
     process.exit(0);
 }

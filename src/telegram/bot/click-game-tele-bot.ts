@@ -17,8 +17,8 @@ export interface ClickGameBotContext extends Scenes.SceneContext {
 }
 
 export const inlineKeyboardDefault = [
-    [Markup.button.webApp('Guess and Leverage Game 🎮', TMA_LINK)],
-    [Markup.button.url('Ditto Quest Idle RPG 👾', DITTO_QUEST_LINK)],
+    [Markup.button.webApp('Game 1: Ditto Guess 🎮', TMA_LINK)],
+    [Markup.button.url('Game 2: Ditto Quest 👾', DITTO_QUEST_LINK)],
     [
         Markup.button.url('X 🌐', 'https://x.com/dittocoin'),
         Markup.button.url('Community 👥', 'https://t.me/teamditto')

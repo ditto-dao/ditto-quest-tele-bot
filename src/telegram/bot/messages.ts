@@ -6,9 +6,9 @@ export function getStartMessageHTML(ctx: Context) {
     return `
 <b>Hi @${username || 'there'}!</b> 👋
 
-Welcome to <b>Ditto Arcade</b> — your gateway to two ways to earn $DITTO!
+Welcome to <b>Ditto Arcade</b> — a growing world of Telegram games powered by $DITTO.
 
-🎮 <b>Guess and Leverage Game</b>  
+🎮 <b>Ditto Guess</b>  
 Tap ➕ and ➖ to complete combos and push the global counter.  
 Try <b>Guess</b> & <b>Leverage</b> modes to multiply your $DITTO.
 
