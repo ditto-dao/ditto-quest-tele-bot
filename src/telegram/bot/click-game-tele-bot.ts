@@ -3,10 +3,11 @@ import { logger } from "../../utils/logger";
 import { SceneSession } from "telegraf/typings/scenes";
 import broadcastMessageScene from "../scenes/broadcast-message-scene";
 import { isAdmin, replyWithError } from "../../utils/tele-bot-utils";
-import { BROADCAST_MESSAGE_SCENE } from "../scenes/scenes";
+import { BROADCAST_MESSAGE_SCENE, BROADCAST_TEST_MESSAGE_SCENE } from "../scenes/scenes";
 import { getStartMessageHTML } from "./messages";
 import { join } from "path";
 import { DITTO_QUEST_LINK, TMA_LINK } from "../../utils/config";
+import broadcastTestScene from "../scenes/broadcast-test-message-scene";
 
 interface ClickGameBotSession extends SceneSession {
     processingCallback?: boolean;
@@ -20,10 +21,10 @@ export const inlineKeyboardDefault = [
     [Markup.button.webApp('Game 1: Ditto Guess 🎮', TMA_LINK)],
     [Markup.button.url('Game 2: Ditto Quest 👾', DITTO_QUEST_LINK)],
     [
-        Markup.button.url('X 🌐', 'https://x.com/dittocoin'),
-        Markup.button.url('Community 👥', 'https://t.me/teamditto')
+        Markup.button.url('X 👥', 'https://x.com/dittocoin'),
+        Markup.button.url('Community 🗨', 'https://t.me/teamditto')
     ],
-    [Markup.button.url('Whitepaper 📖', 'https://team-ditto.notion.site/Ditto-Labs-Blueprint-1d759184254f80b5903ec03400fb8c56')],
+    [Markup.button.url('Website 📖', 'https://ditto-labs.super.site/')],
 ]
 
 export type ButtonCallback = {
@@ -49,10 +50,14 @@ export class ClickGameTeleBot {
         await this.#bot.launch();
     }
 
-    // Initialize listeners for the bot
     private initListeners() {
         this.#bot.use(session());
-        const stage = new Scenes.Stage<ClickGameBotContext>([broadcastMessageScene]);
+
+        // Add both scenes to the stage
+        const stage = new Scenes.Stage<ClickGameBotContext>([
+            broadcastMessageScene,
+            broadcastTestScene
+        ]);
         this.#bot.use(stage.middleware());
 
         // On start command
@@ -72,7 +77,15 @@ export class ClickGameTeleBot {
 
         this.#bot.command('broadcast', async ctx => {
             if (isAdmin(ctx)) {
+                logger.info(`Entering broadcast scene.`);
                 ctx.scene.enter(BROADCAST_MESSAGE_SCENE);
+            }
+        });
+
+        this.#bot.command('broadcasttest', async ctx => {
+            if (isAdmin(ctx)) {
+                logger.info(`Entering broadcast test scene.`);
+                ctx.scene.enter(BROADCAST_TEST_MESSAGE_SCENE);
             }
         });
 

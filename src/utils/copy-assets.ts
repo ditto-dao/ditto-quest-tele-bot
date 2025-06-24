@@ -1,15 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const source = path.resolve(__dirname, '../assets');
-const destination = path.resolve(__dirname, '../../dist/src/assets');
+const sourceFile = path.resolve(__dirname, '../assets/banner.png');
+const destFile = path.resolve(__dirname, '../../dist/src/assets/banner.png');
 
-fs.mkdirSync(destination, { recursive: true });
+// Ensure destination directory exists
+fs.mkdirSync(path.dirname(destFile), { recursive: true });
 
-fs.readdirSync(source).forEach(file => {
-  const sourceFile = path.join(source, file);
-  const destFile = path.join(destination, file);
-  fs.copyFileSync(sourceFile, destFile);
-});
+// Copy the file
+fs.copyFileSync(sourceFile, destFile);
 
-console.log('Assets copied successfully.');
+console.log('banner.png copied successfully.');

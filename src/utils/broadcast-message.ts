@@ -1,46 +1,42 @@
 import { Telegraf, Markup } from "telegraf";
 import { BOT_TOKEN, DITTO_QUEST_LINK } from "./config";
-import { getAllUserIdsFromRedis } from "../redis/users";
 import { join } from "path";
+import fs from "fs/promises";
+import { logger } from "./logger";
 
 const bot = new Telegraf(BOT_TOKEN);
 
 const inlineKeyboard = Markup.inlineKeyboard([
     [Markup.button.url("Play Ditto Quest 👾⚔️", DITTO_QUEST_LINK)],
-    [Markup.button.url("Ditto Quest Guide 📖", "https://team-ditto.notion.site/Ditto-Quest-Beginner-Guide-1d759184254f806cbbeafabba0734ddc")],
+    [Markup.button.url("Ditto Quest Guide 📖", "https://team-ditto.notion.site/Ditto-Quest-Beginner-Guide-21359184254f803e8fcbc1c4783cd579")],
 ]);
 
 async function broadcast() {
-    const userIds = await getAllUserIdsFromRedis();
-    //const userIds = ["138050881", "34860195", "6712681725"];
-    const imagePath = join(__dirname, "../assets/dq-promo-banner-crop.png"); // Update path as needed
+    const userIds: string[] = JSON.parse(await fs.readFile(join(__dirname, "../assets/json/test.json"), "utf-8"));
+    //const userIds: string[] = JSON.parse(await fs.readFile(join(__dirname, "../assets/json/user-ids.json"), "utf-8"));
+    const imagePath = join(__dirname, "../assets/promo/expedizion.jpg");
     const caption = `
-<b>🚨 DITTO QUEST BETA IS LIVE 🚨</b>  
+<b>🎫 Ditto Pass: Expedition Season Zero is LIVE!</b>
 
-The portal has opened. The Beta era begins.
+Complete <b>5 in-game milestones</b> to earn <b>$DITTO rewards</b> — and unlock a chance at a <b>500 USDT raffle</b> <i>(plus a rumored exclusive item 👀)</i>.
 
-Welcome to <b>Ditto Quest</b> — an idle/AFK RPG where you’ll <b>farm</b>, <b>craft</b>, <b>breed slimes</b>, <b>battle monsters</b>, and earn <b>$DITTO</b>… even while offline. 💰
+<b>🏹 Milestones:</b>  
+🛡 <b>Lv 50 Combat</b>  
+🌾 <b>Lv 40 Farming</b>  
+⚒️ <b>Lv 30 Crafting</b>  
+🧬 <b>Gen 10 Slime</b>  
+🤝 <b>Refer 10 friends</b>
 
-🧪 <b>This is an open Beta testing phase — available to everyone!</b>  
-Play, explore, and help us polish the game for official release (coming soon with the $DITTO token launch).
+💰 Each milestone = <b>100K $DITTO</b>  
+📅 Ends Fri, 21 Jun @ 00:00 UTC
 
-<b>🎯 What’s live in Beta:</b>  
-⛏ Farming  
-🛠 Crafting  
-🐣 Breeding  
-⚔ Combat (Domains)  
-💸 Gacha pulls  
-… and of course, $DITTO accumulation.
-
-🐞 <b>Spotted a bug or got a suggestion?</b>  
-Report bugs, win rewards, and help shape the Dittoverse.
-
-<i>Ditto can be whatever. You can be ANYTHING!</i>  
+Track your progress. Claim your fate. 🗺
 `
 
-    console.log(`Attempting to broadcast to ${userIds.length} users.`);
+    logger.info(`Attempting to broadcast to ${userIds.length} users.`);
 
     const BATCH_SIZE = 20;
+    let successfulCount = 0;
 
     for (let i = 0; i < userIds.length; i += BATCH_SIZE) {
         const batch = userIds.slice(i, i + BATCH_SIZE);
@@ -53,15 +49,18 @@ Report bugs, win rewards, and help shape the Dittoverse.
                     reply_markup: inlineKeyboard.reply_markup,
                 })
                 .then(() => {
-                    console.log(`Broadcast sent to ${userId}`);
+                    logger.info(`Broadcast sent to ${userId}`);
+                    successfulCount++;
                 })
                 .catch((err) => {
-                    console.error(`Failed to send to ${userId}: ${err}`);
+                    logger.error(`Failed to send to ${userId}: ${err}`);
                 })
         );
 
         await Promise.allSettled(sendTasks);
     }
+
+    logger.info(`Successfully broadcasted to ${successfulCount} users.`);
 
     process.exit(0);
 }

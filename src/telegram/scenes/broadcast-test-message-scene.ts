@@ -1,5 +1,5 @@
 import { Scenes } from "telegraf";
-import { BROADCAST_MESSAGE_SCENE } from "./scenes";
+import { BROADCAST_TEST_MESSAGE_SCENE } from "./scenes";
 import { logger } from "../../utils/logger";
 import { replyWithError } from "../../utils/tele-bot-utils";
 import { ClickGameBotContext } from "../bot/click-game-tele-bot";
@@ -7,28 +7,28 @@ import { join } from "path";
 import fs from "fs/promises";
 import { broadcastMessageOptimized } from "../../utils/broadcast-message-optimised";
 
-const broadcastMessageScene = new Scenes.BaseScene<ClickGameBotContext>(BROADCAST_MESSAGE_SCENE);
+const broadcastTestScene = new Scenes.BaseScene<ClickGameBotContext>(BROADCAST_TEST_MESSAGE_SCENE);
 
-broadcastMessageScene.enter(async (ctx) => {
+broadcastTestScene.enter(async (ctx) => {
     try {
-        await ctx.reply(`📢 PRODUCTION BROADCAST\n\nWhat message would you like to broadcast to ALL users?`);
+        await ctx.reply(`🧪 TEST BROADCAST\n\nWhat message would you like to broadcast to TEST users only?`);
     } catch (err) {
-        logger.error(`Error in Broadcast Message Scene: ${err}`);
+        logger.error(`Error in Broadcast Test Scene: ${err}`);
         replyWithError(ctx, 'An error occurred. Please try again later.');
     }
 });
 
-broadcastMessageScene.on('message', async (ctx) => {
+broadcastTestScene.on('message', async (ctx) => {
     try {
         if (!('message' in ctx && ctx.message)) {
             throw new Error('No message field in context');
         }
 
-        // PRODUCTION - Use all users
-        const userIds: string[] = JSON.parse(await fs.readFile(join(__dirname, "../../assets/json/user-ids.json"), "utf-8"));
+        // TEST - Use test users only
+        const userIds: string[] = JSON.parse(await fs.readFile(join(__dirname, "../../assets/json/test.json"), "utf-8"));
 
         // Send initial status message
-        const statusMsg = await ctx.reply(`🚀 Starting PRODUCTION broadcast to ${userIds.length} users...`);
+        const statusMsg = await ctx.reply(`🚀 Starting TEST broadcast to ${userIds.length} users...`);
 
         let broadcastResult: { success: number; failed: number };
 
@@ -47,7 +47,7 @@ broadcastMessageScene.on('message', async (ctx) => {
             ctx.chat!.id,
             statusMsg.message_id,
             undefined,
-            `✅ PRODUCTION Broadcast completed!\n\n` +
+            `✅ TEST Broadcast completed!\n\n` +
             `📊 Results:\n` +
             `• Successfully sent: ${broadcastResult.success}\n` +
             `• Failed: ${broadcastResult.failed}\n` +
@@ -55,22 +55,22 @@ broadcastMessageScene.on('message', async (ctx) => {
         );
 
     } catch (err) {
-        logger.error(`Error broadcasting message in Broadcast Message Scene: ${err}`);
-        replyWithError(ctx, 'An error occurred during broadcast. Please try again later.');
+        logger.error(`Error broadcasting message in Broadcast Test Scene: ${err}`);
+        replyWithError(ctx, 'An error occurred during test broadcast. Please try again later.');
     } finally {
         ctx.scene.leave();
-        logger.info(`Leacing broadcast scene`);
+        logger.info(`Leacing broadcast test scene`);
     }
 });
 
-broadcastMessageScene.command(['exit', 'quit', 'back'], async (ctx) => {
+broadcastTestScene.command(['exit', 'quit', 'back'], async (ctx) => {
     try {
-        await ctx.reply('Exiting production broadcast scene...');
+        await ctx.reply('Exiting test broadcast scene...');
         ctx.scene.leave();
     } catch (err) {
-        logger.error(`Error exiting Broadcast Message Scene: ${err}`);
+        logger.error(`Error exiting Broadcast Test Scene: ${err}`);
         replyWithError(ctx, 'An error occurred. Please try again later.');
     }
 });
 
-export default broadcastMessageScene;
+export default broadcastTestScene;
