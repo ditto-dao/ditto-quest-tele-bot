@@ -8,8 +8,10 @@ export const BOT_TOKEN = ((process.env.NODE_ENV === NodeEnv.PRODUCTION) ? proces
 
 export const ADMIN_IDS = (process.env.ADMIN_TELE_IDS) ? process.env.ADMIN_TELE_IDS.split(" ") : [];
 
-export const TMA_LINK = ((process.env.NODE_ENV === NodeEnv.PRODUCTION) ? process.env.TMA_LINK_PROD : process.env.TMA_LINK_DEV) || '';
+export const TMA_LINK = ((process.env.NODE_ENV === NodeEnv.PRODUCTION) ? process.env.TMA_LINK_PROD : process.env.TMA_LINK_TEST) || '';
 
-export const DITTO_QUEST_LINK = process.env.DITTO_QUEST_LINK || '';
+export const TMA_LINK_DEV = process.env.TMA_LINK_DEV || '';
+
+export const DITTO_GUESS_LINK = process.env.DITTO_GUESS_LINK || '';
 
 export const REDIS_URL = process.env.REDIS_URL || '';

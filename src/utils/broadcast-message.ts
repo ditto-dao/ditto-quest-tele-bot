@@ -1,5 +1,5 @@
 import { Telegraf, Markup } from "telegraf";
-import { BOT_TOKEN, DITTO_QUEST_LINK } from "./config";
+import { BOT_TOKEN, DITTO_GUESS_LINK } from "./config";
 import { join } from "path";
 import fs from "fs/promises";
 import { logger } from "./logger";
@@ -7,7 +7,7 @@ import { logger } from "./logger";
 const bot = new Telegraf(BOT_TOKEN);
 
 const inlineKeyboard = Markup.inlineKeyboard([
-    [Markup.button.url("Play Ditto Quest 👾⚔️", DITTO_QUEST_LINK)],
+    [Markup.button.webApp("Play Ditto Quest 👾⚔️", DITTO_GUESS_LINK)],
     [Markup.button.url("Ditto Quest Guide 📖", "https://team-ditto.notion.site/Ditto-Quest-Beginner-Guide-21359184254f803e8fcbc1c4783cd579")],
 ]);
 

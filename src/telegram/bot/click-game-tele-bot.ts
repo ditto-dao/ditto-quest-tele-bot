@@ -6,7 +6,7 @@ import { isAdmin, replyWithError } from "../../utils/tele-bot-utils";
 import { BROADCAST_MESSAGE_SCENE, BROADCAST_TEST_MESSAGE_SCENE } from "../scenes/scenes";
 import { getStartMessageHTML } from "./messages";
 import { join } from "path";
-import { DITTO_QUEST_LINK, TMA_LINK } from "../../utils/config";
+import { DITTO_GUESS_LINK, NodeEnv, TMA_LINK, TMA_LINK_DEV } from "../../utils/config";
 import broadcastTestScene from "../scenes/broadcast-test-message-scene";
 
 interface ClickGameBotSession extends SceneSession {
@@ -18,13 +18,16 @@ export interface ClickGameBotContext extends Scenes.SceneContext {
 }
 
 export const inlineKeyboardDefault = [
-    [Markup.button.webApp('Game 1: Ditto Guess 🎮', TMA_LINK)],
-    [Markup.button.url('Game 2: Ditto Quest 👾', DITTO_QUEST_LINK)],
+    [Markup.button.webApp('Play Ditto Quest 👾', TMA_LINK)],
+    [Markup.button.url('Play Ditto Guess 🎮', DITTO_GUESS_LINK)],
     [
         Markup.button.url('X 👥', 'https://x.com/dittocoin'),
         Markup.button.url('Community 🗨', 'https://t.me/teamditto')
     ],
     [Markup.button.url('Website 📖', 'https://ditto-labs.super.site/')],
+    ...(process.env.NODE_ENV !== NodeEnv.PRODUCTION
+        ? [[Markup.button.url('🧪 DQ Dev Env', TMA_LINK_DEV)]]
+        : [])
 ]
 
 export type ButtonCallback = {

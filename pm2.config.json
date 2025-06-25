@@ -1,7 +1,7 @@
 {
     "apps": [
         {
-            "name": "Click Game Telegram Bot",
+            "name": "Ditto Quest Telegram Bot",
             "script": "dist/index.js",
             "interpreter": "/home/ubuntu/.nvm/versions/node/v18.20.3/bin/node",
             "node_args": "-r dotenv/config",
