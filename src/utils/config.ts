@@ -15,3 +15,5 @@ export const TMA_LINK_DEV = process.env.TMA_LINK_DEV || '';
 export const DITTO_GUESS_LINK = process.env.DITTO_GUESS_LINK || '';
 
 export const REDIS_URL = process.env.REDIS_URL || '';
+
+export const WEBHOOK_URL = ((process.env.NODE_ENV === NodeEnv.PRODUCTION) ? process.env.WEBHOOK_URL_PROD : process.env.WEBHOOK_URL_DEV) || '';

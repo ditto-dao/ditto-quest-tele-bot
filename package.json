@@ -13,6 +13,7 @@
     "broadcast-msg": "NODE_ENV=prod dotenv -e .env ts-node src/utils/broadcast-message.ts"
   },
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "ts-node": "^10.9.2"
   },
   "dependencies": {
@@ -20,6 +21,7 @@
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
+    "express": "^5.1.0",
     "pino": "^9.2.0",
     "pino-pretty": "^11.2.1",
     "redis": "^4.6.14",
