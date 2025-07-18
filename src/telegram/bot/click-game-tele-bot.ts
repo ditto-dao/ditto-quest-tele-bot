@@ -192,7 +192,7 @@ export class ClickGameTeleBot {
                 const stickerCount = uploadedStickers.length;
                 const message = isNewStickerSet
                     ? `🎉 Your DQ Sticker Pack has been created with ${stickerCount} slime stickers!\n\n📦 Tap the button below to add them to Telegram:`
-                    : `✨ Added ${stickerCount} new stickers to your DQ Sticker Pack!\n\n📦 Check out your updated collection:`;
+                    : `✨ Added ${stickerCount} new stickers to your DQ Sticker Pack!\n\nIf you have already added the sticker pack, you need to remove it first before downloading the updated one.\n\n📦 Check out your updated collection:`;
 
                 await this.#bot.telegram.sendMessage(
                     parseInt(telegramId),
