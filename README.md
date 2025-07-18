@@ -266,22 +266,3 @@ yarn pm2-dev
 # Broadcast message utility
 yarn broadcast-msg
 ```
-
-## 🎖️ Hackathon Features
-
-This project demonstrates several advanced concepts ideal for hackathon evaluation:
-
-### Real-time Integration
-- **WebSocket Communication**: Seamless integration with game server websockets
-- **Instant Payment Processing**: Real-time Stars payment handling
-- **Live Sticker Pack Management**: Telegram API integration for sticker packs created by the main game server
-
-### Advanced Bot Features
-- **Scene-based Navigation**: Complex conversation flows for admin functions
-- **Multi-environment Support**: Separate dev/test/prod configurations
-- **Automated Content Management**: Seamless sticker pack creation from game server generated images
-
-### Scalable Architecture
-- **Microservice Design**: Independent bot server with API endpoints
-- **Express Integration**: RESTful API alongside Telegram bot functionality
-- **PM2 Process Management**: Production-ready deployment with monitoring
